@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DX.COM - HAMZA Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        :root {
+            --primary: #6C63FF;
+            --secondary: #FF6584;
+            --dark: #1a1a2e;
+            --darker: #16213e;
+            --light: #F7F9FC;
+            --accent: #00D4FF;
+            --neon: #00fff2;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--darker), var(--dark));
+            color: var(--light);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* شاشة التحميل */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--darker);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease;
+        }
+
+        .loader-content {
+            text-align: center;
+        }
+
+        .loader-spinner {
+            width: 60px;
+            height: 60px;
+            border: 3px solid rgba(108, 99, 255, 0.3);
+            border-top: 3px solid var(--neon);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+            box-shadow: 0 0 20px var(--neon);
+        }
+
+        .loader-text {
+            font-size: 1.5rem;
+            color: var(--light);
+            letter-spacing: 2px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* الترحيب */
+        #welcome {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--darker);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9998;
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .welcome-content {
+            text-align: center;
+            animation: welcomeSlide 1.5s ease-out;
+        }
+
+        .welcome-title {
+            font-size: 4rem;
+            background: linear-gradient(45deg, var(--neon), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 30px var(--neon);
+            animation: titleGlow 2s infinite alternate;
+        }
+
+        @keyframes welcomeSlide {
+            0% { transform: translateY(-100px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes titleGlow {
+            0% { text-shadow: 0 0 20px var(--neon); }
+            100% { text-shadow: 0 0 40px var(--neon), 0 0 60px var(--accent); }
+        }
+
+        /* المحتوى الرئيسي */
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            text-align: center;
+            padding: 20px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s ease;
+        }
+
+        .hero-content {
+            z-index: 2;
+            max-width: 800px;
+        }
+
+        .site-name {
+            font-size: 4rem;
+            color: var(--neon);
+            margin-bottom: 1rem;
+            font-weight: 700;
+            letter-spacing: 8px;
+            text-shadow: 0 0 20px var(--neon);
+            animation: neonPulse 3s infinite;
+        }
+
+        .main-title {
+            font-size: 5rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            background: linear-gradient(45deg, var(--primary), var(--accent), var(--neon));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 3px;
+            animation: titleShine 4s infinite;
+            position: relative;
+        }
+
+        .main-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--neon), transparent);
+            animation: lineGlow 2s infinite;
+        }
+
+        @keyframes neonPulse {
+            0%, 100% { text-shadow: 0 0 20px var(--neon); }
+            50% { text-shadow: 0 0 30px var(--neon), 0 0 40px var(--accent); }
+        }
+
+        @keyframes titleShine {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes lineGlow {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px 25px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 50px;
+            text-decoration: none;
+            color: var(--light);
+            transition: all 0.4s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .social-link:hover::before {
+            left: 100%;
+        }
+
+        .social-link:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .social-link.instagram:hover {
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+        }
+
+        .social-link.phone:hover {
+            background: linear-gradient(45deg, #25D366, #128C7E);
+        }
+
+        .social-link.discord:hover {
+            background: linear-gradient(45deg, #7289DA, #5A6EAB);
+        }
+
+        .personal-info {
+            margin: 3rem 0;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin: 20px 0;
+            padding: 15px 20px;
+            border-radius: 15px;
+            transition: all 0.4s ease;
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 4px solid transparent;
+        }
+
+        .info-item:hover {
+            background: rgba(108, 99, 255, 0.15);
+            transform: translateX(15px);
+            border-left: 4px solid var(--neon);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .info-item i {
+            color: var(--neon);
+            font-size: 1.5rem;
+            width: 30px;
+            text-align: center;
+            text-shadow: 0 0 10px var(--neon);
+        }
+
+        .contact-details {
+            margin-top: 2rem;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 12px 0;
+            padding: 10px 0;
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            transform: translateX(10px);
+        }
+
+        .contact-item i {
+            color: var(--accent);
+            width: 25px;
+            font-size: 1.2rem;
+        }
+
+        /* الأشكال العائمة */
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            opacity: 0.1;
+            animation: float 20s infinite ease-in-out;
+            filter: blur(1px);
+        }
+
+        .shape-1 { width: 200px; height: 200px; top: 10%; left: 5%; animation-delay: 0s; }
+        .shape-2 { width: 150px; height: 150px; top: 60%; left: 85%; animation-delay: 3s; }
+        .shape-3 { width: 100px; height: 100px; top: 80%; left: 15%; animation-delay: 6s; }
+        .shape-4 { width: 120px; height: 120px; top: 20%; left: 90%; animation-delay: 9s; }
+        .shape-5 { width: 180px; height: 180px; top: 70%; left: 3%; animation-delay: 12s; }
+        .shape-6 { width: 90px; height: 90px; top: 30%; left: 70%; animation-delay: 15s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+            33% { transform: translateY(-30px) rotate(120deg) scale(1.1); }
+            66% { transform: translateY(15px) rotate(240deg) scale(0.9); }
+        }
+
+        /* الجسيمات */
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        /* التجاوب مع الشاشات */
+        @media (max-width: 768px) {
+            .welcome-title { font-size: 2.5rem; }
+            .site-name { font-size: 2.5rem; letter-spacing: 4px; }
+            .main-title { font-size: 3rem; }
+            .social-links { flex-direction: column; align-items: center; }
+            .info-item { font-size: 0.9rem; gap: 15px; }
+            .personal-info { padding: 20px; margin: 2rem 0; }
+        }
+    </style>
+</head>
+<body>
+    <!-- شاشة التحميل -->
+    <div id="loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">DX.COM</div>
+        </div>
+    </div>
+
+    <!-- شاشة الترحيب -->
+    <div id="welcome">
+        <div class="welcome-content">
+            <h1 class="welcome-title">Welcome to HAMZA's Website</h1>
+        </div>
+    </div>
+
+    <!-- المحتوى الرئيسي -->
+    <section id="hero">
+        <div class="hero-content">
+            <div class="site-name">DX</div>
+            <h1 class="main-title">HAMZA</h1>
+            
+            <div class="social-links">
+                <a href="https://instagram.com/Hamza___750" target="_blank" class="social-link instagram">
+                    <i class="fab fa-instagram"></i>
+                    <span>Hamza___750</span>
+                </a>
+                <a href="tel:0615673757" class="social-link phone">
+                    <i class="fas fa-phone"></i>
+                    <span>0615673757</span>
+                </a>
+                <a href="#" class="social-link discord">
+                    <i class="fab fa-discord"></i>
+                    <span>dx__272711</span>
+                </a>
+            </div>
+
+            <div class="personal-info">
+                <div class="info-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>My city is Castillejo 📍</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-music"></i>
+                    <span>❤️ I love rap music 🎵</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-gamepad"></i>
+                    <span>❤️ I'm a gamer 🎮</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-palette"></i>
+                    <span>❤️ I'm a designer 🌄 And video editor 🎥</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-code"></i>
+                    <span>❤️ I am a developer</span>
+                </div>
+            </div>
+
+            <div class="contact-details">
+                <h3 style="color: var(--neon); margin-bottom: 1rem;">Contact Information</h3>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <span>Phone: 0615673757</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fab fa-instagram"></i>
+                    <span>Instagram: Hamza___750</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fab fa-discord"></i>
+                    <span>Discord: dx__272711</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- الأشكال العائمة -->
+        <div class="floating-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+            <div class="shape shape-5"></div>
+            <div class="shape shape-6"></div>
+        </div>
+
+        <!-- الجسيمات -->
+        <div id="particles-js"></div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // تهيئة الجسيمات
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: "#6C63FF" },
+                shape: { type: "circle" },
+                opacity: { value: 0.5, random: true },
+                size: { value: 3, random: true },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#6C63FF",
+                    opacity: 0.2,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: "none",
+                    random: true,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: { enable: true, mode: "repulse" },
+                    onclick: { enable: true, mode: "push" },
+                    resize: true
+                }
+            },
+            retina_detect: true
+        });
+
+        // تسلسل التحريك
+        document.addEventListener('DOMContentLoaded', function() {
+            // إخفاء شاشة التحميل
+            setTimeout(function() {
+                document.getElementById('loader').style.opacity = '0';
+                setTimeout(function() {
+                    document.getElementById('loader').style.display = 'none';
+                    
+                    // إظهار الترحيب
+                    document.getElementById('welcome').style.display = 'flex';
+                    
+                    // إخفاء الترحيب بعد 3 ثواني
+                    setTimeout(function() {
+                        document.getElementById('welcome').style.opacity = '0';
+                        document.getElementById('welcome').style.transform = 'scale(1.2)';
+                        
+                        // إظهار المحتوى الرئيسي
+                        setTimeout(function() {
+                            document.getElementById('welcome').style.display = 'none';
+                            document.getElementById('hero').style.opacity = '1';
+                            document.getElementById('hero').style.transform = 'translateY(0)';
+                        }, 800);
+                    }, 3000);
+                }, 500);
+            }, 2000);
+
+            // تأثيرات التفاعل
+            const links = document.querySelectorAll('.social-link');
+            const infoItems = document.querySelectorAll('.info-item');
+            
+            links.forEach(link => {
+                link.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px) scale(1.05)';
+                });
+                link.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+
+            infoItems.forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.background = 'rgba(108, 99, 255, 0.2)';
+                });
+                item.addEventListener('mouseleave', function() {
+                    this.style.background = '';
+                });
+            });
+
+            // تأثير الكتابة للاسم DX.COM
+            const siteName = document.querySelector('.site-name');
+            siteName.style.opacity = '0';
+            setTimeout(() => {
+                siteName.style.transition = 'opacity 1s ease, transform 1s ease';
+                siteName.style.opacity = '1';
+                siteName.style.transform = 'scale(1.1)';
+                setTimeout(() => {
+                    siteName.style.transform = 'scale(1)';
+                }, 1000);
+            }, 1000);
+        });
+
+        // تأثير التمرير (بارالاكس)
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const hero = document.getElementById('hero');
+            hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+        });
+    </script>
+</body>
+</html>
